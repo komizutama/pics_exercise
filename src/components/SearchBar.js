@@ -9,7 +9,7 @@ class SearchBar extends React.Component {
     onFormSubmit = (event) => {
         event.preventDefault();//this line of code prevents the form from submiting automatically
         // using an arroe function stops the dreaded undefined.. but can also be used with an arrow function in the callback 
-        console.log (this.state.term);
+        this.props.onSubmit(this.state.term); //gets access to callback.
     }
 
 
