@@ -1,23 +1,21 @@
 import React from 'react';
-import axios from 'axios';
 
 import SearchBar from './SearchBar';
+import unsplash from '../api/unsplash';
+import ImageList from './ImageList';
 
 
 
 
 class App extends React.Component {
-    async onSearchSubmit(term){
-        const response = await axios
-        .get('https://api.unsplash.com/search/photos', {
-            params: {query: term},
-            headers: {
-                Authorization: 
-                    'Client-ID 7yYrLjx33EXr_h9Xn2r1J0d0SfsD4tARUzFdcLTN9VQ'
-            }
+    state = { images:[] }; //default images state as empty array
+    onSearchSubmit = async (term) => {//mark as async
+        const response = await unsplash.get('/search/photos', {
+            params: {query: term}
         });
-        console.log(response.data.results);
+        this.setState({ images:response.data.results });
 //async await syntex async goes in front of method name take whatever is getting resolved.. here axios.get.. then assign to a variable.
+
 
     }
 
@@ -25,6 +23,8 @@ class App extends React.Component {
         return (
             <div className="ui container" style={{marginTop: '10px'}}>
                 <SearchBar onSubmit={this.onSearchSubmit}/>
+                Found: { this.state.images.length } images!
+                <ImageList images={this.state.images}/>
             </div>
         )  ;
     }
